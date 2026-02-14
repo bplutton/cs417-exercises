@@ -47,7 +47,7 @@
 #     return dt.weekday() >= 5
 
 import pytest
-from timeutils.dates import days_between, is_weekend
+from timeutils.dates import days_between, is_weekend, next_weekday
 def test_days_between_same_day():
     """Two identical dates should be 0 days apart."""
     assert days_between("2025-03-15", "2025-03-15") == 0
@@ -67,3 +67,9 @@ def test_days_between_invalid_format():
     """A badly formatted string should raise ValueError."""
     with pytest.raises(ValueError):
         days_between("not-a-date", "2025-03-15")
+
+def test_next_weekday():
+    """Test next_weekday function with various inputs."""
+    assert next_weekday("2026-02-14", 0) == "2026-02-16"  # Saturday to next Monday
+    assert next_weekday("2026-02-14", 5) == "2026-02-21"  # Saturday to next Saturday
+    assert next_weekday("2026-02-14", 6) == "2026-02-15"  # Saturday to next Sunday
